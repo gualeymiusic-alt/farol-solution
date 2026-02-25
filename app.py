@@ -67,6 +67,6 @@ def index():
     return render_template_string(HTML_BASE, info=INFO)
 
 if __name__ == "__main__":
-    # Importante: Railway usa la variable PORT. Python 3.11 maneja esto perfecto.
-    port = int(os.environ.get("PORT", 5000))
+    # Optimizamos para que lea el puerto 8080 que definiste en Railway
+    port = int(os.environ.get("PORT", 8080))
     app.run(host='0.0.0.0', port=port)
