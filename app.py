@@ -2,14 +2,16 @@ import os
 from flask import Flask, render_template_string, request
 from markupsafe import escape
 
+# Inicialización de la App
 app = Flask(__name__)
 
-# Configuración de contacto de Farol Solution
+# Información de contacto de Farol Solution
 INFO = {
     "whatsapp": "https://wa.me/18093041128?text=Hola%20Farol%20Solution,%20necesito%20una%20automatización",
     "email": "jose.colorvision@gmail.com"
 }
 
+# Estructura Web (Moderna y Responsiva para Móvil)
 HTML_BASE = '''
 <!DOCTYPE html>
 <html lang="es">
@@ -18,14 +20,15 @@ HTML_BASE = '''
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Farol Solution | Automatización</title>
     <style>
-        body { background: #000; color: #fff; font-family: sans-serif; margin: 0; text-align: center; }
+        body { background: #000; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; text-align: center; }
         header { padding: 40px 20px; border-bottom: 3px solid #ff8c00; }
-        h1 { color: #ff8c00; font-size: 2.2rem; margin: 0; letter-spacing: 2px; }
+        h1 { color: #ff8c00; font-size: 2.2rem; margin: 0; letter-spacing: 2px; text-transform: uppercase; }
         .container { padding: 20px; max-width: 500px; margin: auto; }
         .card { background: #111; padding: 25px; border-radius: 15px; border: 1px solid #333; margin-bottom: 20px; }
-        .btn { display: block; background: #ff8c00; color: #000; padding: 18px; border-radius: 10px; font-weight: bold; text-decoration: none; margin: 15px 0; font-size: 1.1rem; }
+        .btn { display: block; background: #ff8c00; color: #000; padding: 18px; border-radius: 10px; font-weight: bold; text-decoration: none; margin: 15px 0; font-size: 1.1rem; transition: 0.3s; }
+        .btn:active { transform: scale(0.98); background: #e67e00; }
         input, textarea { width: 100%; padding: 15px; margin: 10px 0; border-radius: 8px; border: 1px solid #444; background: #1a1a1a; color: #fff; box-sizing: border-box; }
-        button { width: 100%; padding: 18px; background: #fff; color: #000; font-weight: bold; border-radius: 8px; border: none; cursor: pointer; }
+        button { width: 100%; padding: 18px; background: #fff; color: #000; font-weight: bold; border-radius: 8px; border: none; cursor: pointer; font-size: 1rem; }
     </style>
 </head>
 <body>
@@ -53,18 +56,17 @@ HTML_BASE = '''
 def index():
     if request.method == 'POST':
         nombre = escape(request.form.get('n'))[:50]
-        # Respuesta simple de confirmación
         return f"""
         <body style='background:#000;color:#ff8c00;text-align:center;padding-top:100px;font-family:sans-serif;'>
             <h2>¡Excelente {nombre}!</h2>
             <p>Farol Solution ha recibido tu mensaje.</p>
             <br>
-            <a href='/' style='color:#fff;'>Volver atrás</a>
+            <a href='/' style='color:#fff; text-decoration:none; border:1px solid #fff; padding:10px; border-radius:5px;'>Volver atrás</a>
         </body>
         """
     return render_template_string(HTML_BASE, info=INFO)
 
 if __name__ == "__main__":
-    # CLAVE PARA RAILWAY: Captura el puerto dinámico asignado por la plataforma
+    # Importante: Railway usa la variable PORT. Python 3.11 maneja esto perfecto.
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
