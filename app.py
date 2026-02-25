@@ -4,7 +4,7 @@ from markupsafe import escape
 
 app = Flask(__name__)
 
-# Configuración de contacto
+# Configuración de contacto de Farol Solution
 INFO = {
     "whatsapp": "https://wa.me/18093041128?text=Hola%20Farol%20Solution,%20necesito%20una%20automatización",
     "email": "jose.colorvision@gmail.com"
@@ -53,10 +53,18 @@ HTML_BASE = '''
 def index():
     if request.method == 'POST':
         nombre = escape(request.form.get('n'))[:50]
-        return f"<body style='background:#000;color:#ff8c00;text-align:center;padding-top:100px;font-family:sans-serif;'><h2>¡Excelente {nombre}!</h2><p>Farol Solution ha recibido tu mensaje.</p><br><a href='/' style='color:#fff;'>Volver atrás</a></body>"
+        # Respuesta simple de confirmación
+        return f"""
+        <body style='background:#000;color:#ff8c00;text-align:center;padding-top:100px;font-family:sans-serif;'>
+            <h2>¡Excelente {nombre}!</h2>
+            <p>Farol Solution ha recibido tu mensaje.</p>
+            <br>
+            <a href='/' style='color:#fff;'>Volver atrás</a>
+        </body>
+        """
     return render_template_string(HTML_BASE, info=INFO)
 
 if __name__ == "__main__":
-    # CLAVE: Railway asigna el puerto mediante la variable de entorno PORT
+    # CLAVE PARA RAILWAY: Captura el puerto dinámico asignado por la plataforma
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
